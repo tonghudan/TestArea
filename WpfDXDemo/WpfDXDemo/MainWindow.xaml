@@ -5,8 +5,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfDXDemo"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="CurveRobot 3D喷涂轨迹规划"  ResizeMode="NoResize" WindowStyle="None"  Height="700" Width="1000" Icon="Resources/魔方-灰.png" WindowStartupLocation="CenterScreen" Closing="Window_Closing" Background="Gray">
     <Grid>
-        
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0 0" EndPoint="0 1">
+                <GradientStop Offset="0" Color="#033C62"/>
+                <GradientStop Offset="1" Color="#01131F"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="1" Orientation="Vertical">
+            <Button
+                x:Name="buttonInit"
+                Margin="4"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                Click="buttonInit_Click">
+                Initialize Viewport
+            </Button>
+        </StackPanel>
     </Grid>
 </Window>
