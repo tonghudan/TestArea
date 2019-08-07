@@ -16,6 +16,23 @@ using SharpDX;
 using HelixToolkit.Wpf.SharpDX;
 using HelixToolkit.Wpf.SharpDX.Model.Scene;
 using WpfDXDemo.DemoCore;
+//using System.Windows.Media.Media3D;
+//using HelixToolkit.Wpf;
+using AxisAngleRotation3D = System.Windows.Media.Media3D.AxisAngleRotation3D;
+using Point3DCollection = System.Windows.Media.Media3D.Point3DCollection;
+using Point3D = System.Windows.Media.Media3D.Point3D;
+using Rect3D = System.Windows.Media.Media3D.Rect3D;
+using Size3D = System.Windows.Media.Media3D.Size3D;
+using RotateTransform3D = System.Windows.Media.Media3D.RotateTransform3D;
+using Transform3D = System.Windows.Media.Media3D.Transform3D;
+using Transform3DGroup = System.Windows.Media.Media3D.Transform3DGroup;
+using TranslateTransform3D = System.Windows.Media.Media3D.TranslateTransform3D;
+using Vector3D = System.Windows.Media.Media3D.Vector3D;
+using Color = System.Windows.Media.Color;
+using Plane = SharpDX.Plane;
+using Vector3 = SharpDX.Vector3;
+using Colors = System.Windows.Media.Colors;
+using Color4 = SharpDX.Color4;
 
 namespace WpfDXDemo
 {
@@ -41,11 +58,120 @@ namespace WpfDXDemo
 
         private void buttonInit_Click(object sender, RoutedEventArgs e)
         {
+            //初始化viewpoint
+            viewport = new Viewport3DX();
+            viewport.Background = Brushes.Transparent;//设置背景
+            viewport.ShowCoordinateSystem = true;//显示坐标系
+            viewport.ShowFrameRate = true;//显示帧率
+            viewport.CameraRotationMode = CameraRotationMode.Trackball;//相机模式
+            viewport.InfiniteSpin = false;//是否启用了无限旋转
+            viewport.InfoBackground = Brushes.Transparent; //信息显示框的背景
+            viewport.InfoForeground = Brushes.DarkGray;
 
+            //viewport.Camera.LookDirection = new Vector3D(3.210, -3000.933, 4994.820);
+            //viewport.Camera.UpDirection = new Vector3D(0.004, -0.857, -0.515);
+            //viewport.Camera.Position = new Point3D(545.559, 3453.634, -4943.820);
+            //viewport.ShowCameraTarget = true;
+
+
+            viewport.EffectsManager = manager;
+            viewport.Items.Add(new DirectionalLight3D() { Direction = new Vector3D(-1, -1, -1) });
+            viewport.Items.Add(new DirectionalLight3D() { Direction = new Vector3D(1, 1, 1) });
+            //viewport.Items.Add(new AmbientLight3D() { Color = Color.FromArgb(255, 50, 50, 50) });
+            //viewport.Items.Add(new AmbientLight3D() { Color = Color.FromRgb(3,60,98) });
+            //sceneNodeGroup = new SceneNodeGroupModel3D();
+            //viewport.Items.Add(sceneNodeGroup);
+            //viewport.MouseDown3D += Viewport_MouseDown3D;
+
+
+            Grid.SetColumn(viewport, 0);
+            mainGrid.Children.Add(viewport);
+            buttonInit.IsEnabled = false;
+            //buttonRemoveViewport.IsEnabled = true;
+            //viewmodel.EnableButtons = true;
         }
+
+        /// <summary>
+        /// 鼠标按下触发事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Viewport_MouseDown3D(object sender, RoutedEventArgs e)
+        {
+            if (e is MouseDown3DEventArgs args && args.HitTestResult != null)
+            {
+                var model = args.HitTestResult.ModelHit;
+            }
+        }
+
+        private void buttonDoorBlock_Click(object sender, RoutedEventArgs e)
+        {
+            Console.WriteLine(DateTime.Now + ":" + DateTime.Now.Millisecond);
+            CreateDoorBlock();
+            Console.WriteLine(DateTime.Now + ":" + DateTime.Now.Millisecond);
+        }
+
+        /// <summary>
+        /// 用正方形点组成门
+        /// </summary>
+        //private PointsVisual3D[,] DoorpointsVisuals = new PointsVisual3D[200, 80];
+        //private MeshBuilder[,] DoorpointsVisuals = new MeshBuilder[200, 80];
+        private MeshGeometryModel3D[,] DoorpointsVisuals = new MeshGeometryModel3D[200, 80];
+        //MeshElement3D
+
+        /// <summary>
+        /// 创建覆盖门的正方体
+        /// </summary>
+        /// <param name="size"></param>
+        private void CreateDoorBlock(double size = 1)
+        {
+            for (int i = 0; i < 200 / size; i++)
+            {
+                for (int j = 0; j < 80 / size; j++)
+                {
+                    MeshGeometry3D p3dc = new MeshGeometry3D();
+                    Point3D p3d = new Point3D();
+                    p3d.X = size * i + size / 2;
+                    p3d.Y = size * j + size / 2;
+                    p3d.Z = 0;
+                    //DoorpointsVisuals[i, j] = new MeshBuilder();
+                    MeshBuilder meshBr = new MeshBuilder();
+                    Rect3D rect3D = new Rect3D(p3d, new Size3D(size, size, size));
+                    meshBr.AddBox(rect3D);
+
+                    MeshGeometryModel3D mgm3d = new MeshGeometryModel3D();
+                    mgm3d.Geometry = meshBr.ToMesh();
+                    mgm3d.Material = PhongMaterials.Red;
+                    mgm3d.Transform = new TranslateTransform3D(0, 0, 0);
+
+                    DoorpointsVisuals[i, j] = new MeshGeometryModel3D();
+                    DoorpointsVisuals[i, j] = mgm3d;
+
+                    if (!viewport.Items.Contains(DoorpointsVisuals[i, j]))
+                    {
+                        viewport.Items.Add(DoorpointsVisuals[i, j]);
+                        //Element3D.
+                    }
+
+                }
+            }
+
+            //if (!vp.Children.Contains(pointsVisual))
+            //{
+            //    vp.Children.Add(this.pointsVisual);
+            //}
+
+            //this.pointsVisual.Size = size - 1;
+            //this.Points = new Point3DCollection(GeneratePoints());
+            //this.pointsVisual.Points = this.Points;
+        }
+
     }
 
-    public class ViewModel: BaseViewModel
+    /// <summary>
+    /// 自定义ViewModel
+    /// </summary>
+    public class ViewModel : BaseViewModel
     {
         private bool enableButtons = false;
         public bool EnableButtons

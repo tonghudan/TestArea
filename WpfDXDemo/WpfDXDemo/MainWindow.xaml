@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfDXDemo"
         mc:Ignorable="d"
-        Title="CurveRobot 3D喷涂轨迹规划"  ResizeMode="NoResize" WindowStyle="None"  Height="700" Width="1000" Icon="Resources/魔方-灰.png" WindowStartupLocation="CenterScreen" Closing="Window_Closing" Background="Gray">
-    <Grid>
+        Title="CurveRobot 3D喷涂轨迹规划"  ResizeMode="NoResize" Height="700" Width="1000" WindowStartupLocation="CenterScreen" Background="Gray">
+    <Grid x:Name="mainGrid">
         <Grid.Background>
             <LinearGradientBrush StartPoint="0 0" EndPoint="0 1">
                 <GradientStop Offset="0" Color="#033C62"/>
@@ -25,6 +25,14 @@
                 VerticalAlignment="Top"
                 Click="buttonInit_Click">
                 Initialize Viewport
+            </Button>
+            <Button
+                x:Name="buttonDoorBlock"
+                Margin="4"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                Click="buttonDoorBlock_Click">
+                Add Door Block
             </Button>
         </StackPanel>
     </Grid>
