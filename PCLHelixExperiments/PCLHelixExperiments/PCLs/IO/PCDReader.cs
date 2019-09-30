@@ -5,9 +5,9 @@ using System.IO;
 using System.Linq;
 using PCLs.Exceptions;
 
-namespace PCLs.io
+namespace PCLs.IO
 {
-    public class PCDReader<T> where T:PointT
+    public class PCDReader<T> where T : PointT
     {
         /// <summary>
         /// 
@@ -40,10 +40,14 @@ namespace PCLs.io
                     line = sr.ReadLine();
                 }
 
-                if(line.Contains("ascii"))
+                if (line.Contains("ascii"))
                 {
-                    pointList = readData(sr);    
+                    pointList = readData(sr);
                 }
+                //else if (line.Contains("binary"))
+                //{
+
+                //}
                 else
                 {
                     throw new PCDReaderException("Data in file in unrecognized format.");
@@ -61,7 +65,7 @@ namespace PCLs.io
         {
             List<T> points = new List<T>();
             String line = sr.ReadLine();
-            while(line != null)
+            while (line != null)
             {
                 points.Add((T)TypeDescriptor.GetConverter(typeof(T)).ConvertFrom(line));
                 line = sr.ReadLine();
@@ -92,13 +96,13 @@ namespace PCLs.io
 
             using (StreamReader sr = new StreamReader(filename))
             {
-                    String line = sr.ReadLine();
+                String line = sr.ReadLine();
 
                 // TODO: Code needs some refactoring. Lots of repeated code but it works.
                 // Keep reading until Datasection is found
-                while(line != null && !line.Contains("DATA"))
+                while (line != null && !line.Contains("DATA"))
                 {
-                    if(line.Contains("VERSION"))
+                    if (line.Contains("VERSION"))
                     {
                         header.Version = getVersion(line);
                     }
@@ -107,14 +111,14 @@ namespace PCLs.io
                         // Read fieldsnames from the line expects no spaces in field name
                         string[] fields = line.Substring(7).Split(' ');
 
-                        for(int i = 0; i < fields.Length; i++)
+                        for (int i = 0; i < fields.Length; i++)
                         {
                             header.Fields.Add(i, new FieldDescription { Name = fields[i] });
                         }
                     }
                     if (line.Contains("SIZE"))
                     {
-                        if(header.Fields.Count == 0)
+                        if (header.Fields.Count == 0)
                         {
                             throw new PointCloudException("No fields found in pcb file.");
                         }
@@ -130,7 +134,7 @@ namespace PCLs.io
                     }
                     if (line.Contains("TYPE"))
                     {
-                            if (header.Fields.Count == 0)
+                        if (header.Fields.Count == 0)
                         {
                             throw new PointCloudException("No fields found in pcb file.");
                         }
@@ -142,7 +146,7 @@ namespace PCLs.io
                             FieldDescription desc = header.Fields[i];
                             desc.Type = fields[i].ToCharArray()[0];
                             header.Fields[i] = desc;
-                        }     
+                        }
                     }
 
                     if (line.Contains("COUNT"))
@@ -159,11 +163,11 @@ namespace PCLs.io
                             FieldDescription desc = header.Fields[i];
                             desc.Count = Convert.ToInt32(fields[i]);
                             header.Fields[i] = desc;
-                        } 
+                        }
                     }
                     if (line.Contains("WIDTH"))
                     {
-                        header.Width = Convert.ToInt32(line.Substring(6));                  
+                        header.Width = Convert.ToInt32(line.Substring(6));
                     }
                     if (line.Contains("HEIGHT"))
                     {

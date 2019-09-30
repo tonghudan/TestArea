@@ -4,9 +4,135 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PCLHelixExperiments"
+        xmlns:helix="clr-namespace:HelixToolkit.Wpf;assembly=HelixToolkit.Wpf"
+        xmlns:h="http://helix-toolkit.org/wpf" 
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+        Loaded="Window_Loaded"
+        Title="CR 3D实验室"  ResizeMode="NoResize" Height="700" Width="1000" WindowStartupLocation="CenterScreen" Background="Gray">
+    <Window.Resources>
+        <Style TargetType="h:HelixViewport3D">
+        </Style>
+
+    </Window.Resources>
+
+
+    <Grid Margin="0,0,0,0">
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0 0" EndPoint="0 1">
+                <GradientStop Offset="0" Color="#033C62"/>
+                <GradientStop Offset="1" Color="#01131F"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid x:Name="Grid2"  Grid.Column="0" Grid.ColumnSpan="23" Grid.Row="0" Grid.RowSpan="12"  MouseLeftButtonDown="Grid2_MouseLeftButtonDown"  KeyDown="Grid2_KeyDown" KeyUp="Grid2_KeyUp">
+
+            <!--<tools:TrackballDecorator x:Name="toolsTrackballDecorator" Margin="-4,-2,0,0">-->
+            <!--<Viewport3D  x:Name="vp" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                <ModelVisual3D x:Name="mv3d">
+                </ModelVisual3D>
+            </Viewport3D>-->
+            <!--</tools:TrackballDecorator>-->
+            <h:HelixViewport3D x:Name="vp" Grid.Column="0" 
+                           CameraRotationMode="Trackball"
+                            Background="Transparent"
+                           InfiniteSpin="true" 
+                           IsHeadLightEnabled="True"
+                           ShowFrameRate="False" 
+                            CalculateCursorPosition="True" 
+                            ShowCameraTarget="True" 
+                            ShowCameraInfo="False" 
+                            ShowTriangleCountInfo="True" 
+                            ShowFieldOfView="False"
+                           InfoBackground="Transparent"
+                           InfoForeground="White"
+                           ShowCoordinateSystem="True"
+                           
+                           CoordinateSystemLabelForeground="White"
+                           CoordinateSystemLabelX="x"
+                           CoordinateSystemLabelY="y"
+                           CoordinateSystemLabelZ="z"
+                           Title="CurveRobot Tool"
+                           SubTitle="3D Experiments" 
+                           TextBrush="White">
+                <helix:SunLight/>
+                <helix:GridLinesVisual3D x:Name="GridLines" Fill="OrangeRed" Visible="True"/>
+                <helix:GridLinesVisual3D x:Name="GridLinesCenter" Fill="White" Visible="True"/>
+                <!--<h:BoundingBoxVisual3D BoundingBox="{Binding SelectedObject, Converter={StaticResource BoundsConverter}}" Fill="Aqua"  Diameter="0.01"/>-->
+                <ModelVisual3D x:Name="mv3d">
+                </ModelVisual3D>
+            </h:HelixViewport3D>
+        </Grid>
+        <Grid x:Name="BtGrid" Grid.Row="12" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="23">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Grid.RowSpan="5" Grid.Column="0">
+                <Button x:Name="btPCDRead" Content="Read PCD File" Click="btPCDRead_Click"/>
+
+            </StackPanel>
+
+            <StackPanel Grid.Row="0" Grid.RowSpan="5" Grid.Column="1">
+                <Button x:Name="btLoadModel" Content="Load Model File" Click="btLoadModel_Click"/>
+                <Button x:Name="btExportModel" Content="Export Model File" Click="btExportModel_Click"/>
+
+            </StackPanel>
+
+        </Grid>
+
     </Grid>
 </Window>

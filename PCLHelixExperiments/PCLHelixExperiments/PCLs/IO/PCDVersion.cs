@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace PCLs.io
+namespace PCLs.IO
 {
     public enum PCDVersion
     {
